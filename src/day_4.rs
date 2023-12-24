@@ -49,9 +49,7 @@ impl Hand {
         for i in 0 ..card_won {
             let winning_card = i + self.card_id + 1;
 
-            card_winning.get(&winning_card).map(|won| {
-                no_of_card_won += won;
-            });
+            if let Some(won) = card_winning.get(&winning_card) { no_of_card_won += won; }
         }
         card_winning.insert(self.card_id, no_of_card_won.clone());
         no_of_card_won
@@ -63,7 +61,7 @@ fn parse_number(input: &str) -> IResult<&str, u32> {
 }
 
 fn parse_numbers<const C: usize>(input: &str) -> IResult<&str, [u32; C]> {
-    let (i, o) = space0(input)?;
+    let (i, _o) = space0(input)?;
     let (i, o) = separated_list1(space1, parse_number)(i)?;
     let out: [u32; C] = o.try_into().unwrap();
     Ok((i, out))
@@ -90,7 +88,7 @@ pub fn day_4a() {
     let reader = BufReader::new(file);
 
     let mut f = 0;
-    for (i, line) in reader.lines().enumerate() {
+    for (_i, line) in reader.lines().enumerate() {
         let (_, hand) = parse_hand(line.unwrap().as_str()).unwrap();
         f += hand.points();
     }
@@ -109,7 +107,7 @@ pub fn day_4b() {
 
     let mut card_won = HashMap::new();
     let mut res: BigInt = BigInt::from(0);
-    for (i, line) in lines.iter().enumerate() {
+    for (_i, line) in lines.iter().enumerate() {
         let (_, hand) = parse_hand(line.as_str()).unwrap();
         res += hand.scratch_cards(&mut card_won);
     }

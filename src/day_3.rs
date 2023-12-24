@@ -1,10 +1,10 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap};
 use std::fs::File;
 use std::io::{BufReader, BufRead};
-use std::ops::Deref;
+
 use nom::bytes::complete::tag;
-use nom::character::complete::{char, digit1, none_of, one_of};
-use nom::combinator::{map_res, not};
+use nom::character::complete::{char, digit1, none_of};
+use nom::combinator::{map_res};
 use nom::branch::alt;
 use nom::IResult;
 use nom::multi::many1;
@@ -29,12 +29,12 @@ fn parse_dots(input:IndexedStr) -> IResult<IndexedStr, Ele, Error<& str>> {
 }
 
 fn parse_symbol(input: IndexedStr) -> IResult<IndexedStr, Ele, Error<& str>> {
-    let (input_1, o) = none_of("*0123456789.")(input.0)?;
+    let (input_1, _o) = none_of("*0123456789.")(input.0)?;
     Ok((IndexedStr(input_1, input.1 + 1), Ele::Symbol))
 }
 
 fn parse_gear(input: IndexedStr) -> IResult<IndexedStr, Ele, Error<& str>> {
-    let (input_1, o) = char('*')(input.0)?;
+    let (input_1, _o) = char('*')(input.0)?;
     Ok((IndexedStr(input_1, input.1 + 1), Ele::Gear))
 }
 
@@ -50,7 +50,7 @@ impl <'a> ParseError<IndexedStr<'a>> for Error<&'a str> {
         Error::new(input.0, kind)
     }
 
-    fn append(input: IndexedStr, kind: ErrorKind, other: Self) -> Self {
+    fn append(_input: IndexedStr, _kind: ErrorKind, other: Self) -> Self {
         other
     }
 }
@@ -80,7 +80,7 @@ fn parse_single_line_a(input: &str) -> SingleLine {
             Ele::Digit(d) => {
                 line_output.number_idx.push(d);
                 for i in 1..d.to_string().len() + 1 {
-                    let idx: usize = (next.1 as usize - i);
+                    let idx: usize = next.1 as usize - i;
                     line_output.numbers[idx] = Ele::Digit(no_id)
                 }
                 no_id += 1;
@@ -106,7 +106,7 @@ fn parse_single_line_b(input: &str) -> SingleLine {
             Ele::Digit(d) => {
                 line_output.number_idx.push(d);
                 for i in 1..d.to_string().len() + 1 {
-                    let idx: usize = (next.1 as usize - i);
+                    let idx: usize = next.1 as usize - i;
                     line_output.numbers[idx] = Ele::Digit(no_id)
                 }
                 no_id += 1;
@@ -215,7 +215,7 @@ pub fn day_3a() {
     fill in 2 matric
     */
     let file = File::open("data/day_3").unwrap();
-    let mut c = 0;
+    let _c = 0;
     let reader = BufReader::new(file);
 
     let mut prev = SingleLine::default();

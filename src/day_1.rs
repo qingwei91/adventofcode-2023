@@ -70,11 +70,9 @@ fn find_digit(a: &str, reverse: bool) -> u32 {
                 if full_match {
                     v = idx as u32;
                     break;
-                } else {
-                    if le_word.starts_with(cur) {
-                        partial_match = true;
-                        break;
-                    }
+                } else if le_word.starts_with(cur) {
+                    partial_match = true;
+                    break;
                 }
             }
             if full_match || partial_match {
@@ -120,11 +118,11 @@ pub fn day_1b() {
 
     let mut s = 0;
     for line in reader.lines() {
-        let mut current_state = MatchingWord::default();
+        let _current_state = MatchingWord::default();
         let a = line.unwrap();
 
-        let mut first_v = find_digit(a.as_str(), false);
-        let mut sec_v = find_digit(a.as_str(), true);
+        let first_v = find_digit(a.as_str(), false);
+        let sec_v = find_digit(a.as_str(), true);
 
         let mut c_val = 0;
         c_val += first_v * 10;

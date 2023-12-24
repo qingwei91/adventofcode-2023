@@ -3,7 +3,7 @@ use std::io::{BufReader, BufRead};
 use std::iter::Iterator;
 
 use nom::{
-    character::complete::{char, digit1, multispace0, space1},
+    character::complete::{digit1, multispace0, space1},
     bytes::complete::tag,
     combinator::{map_res},
     multi::separated_list1,
@@ -97,7 +97,7 @@ pub fn day_2a() {
     println!("{:?}", c)
 }
 pub fn day_2b() {
-    let truth = Draw{r: 12, g: 13, b:14};
+    let _truth = Draw{r: 12, g: 13, b:14};
     let file = File::open("data/day_2").unwrap();
     let mut c = 0;
     let reader = BufReader::new(file);
